@@ -19,15 +19,19 @@ Usage
 
     // New a BasicList
     bList := NewBasicList()
+    
     //Insert a search key 3, value is string3 (value could be any `interface{}`)
     bList.Insert(3, "string3")
     bList.Insert(4, "string4")
     bList.Insert(2, "string2")
+    
     //Display all linked list.
     bList.DisplayAll()
     //head->[key:0][val:<nil>]->[key:2][val:string2]->[key:3][val:string3]->[key:4][val:string4]->nil
+    
     //Remove from list
     bList.Remove(3)    
+    
     bList.DisplayAll()
     //head->[key:0][val:<nil>]->[key:2][val:string2]->[key:4][val:string4]->nil
 
