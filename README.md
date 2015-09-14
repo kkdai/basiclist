@@ -40,6 +40,12 @@ Usage
 - [大数据日知录：架构与算法](http://product.dangdang.com/23561651.html)
 
 
+Project52
+---------------
+
+It is one of my [project 52](https://github.com/kkdai/project52).
+
+
 License
 ---------------
 
