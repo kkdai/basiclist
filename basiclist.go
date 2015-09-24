@@ -5,32 +5,32 @@ import (
 	"fmt"
 )
 
-type basicnote struct {
+type BasicNote struct {
 	key      int
 	val      interface{}
-	nextNode *basicnote
+	nextNode *BasicNote
 }
 
-type basiclist struct {
-	head *basicnote
+type BasicList struct {
+	head *BasicNote
 }
 
 //NewBasicList : Init structure for basic Sorted Linked List.
-func NewBasicList() *basiclist {
+func NewBasicList() *BasicList {
 	var empty interface{}
-	return &basiclist{head: &basicnote{key: 0, val: empty, nextNode: nil}}
+	return &BasicList{head: &BasicNote{key: 0, val: empty, nextNode: nil}}
 }
 
-func (b *basiclist) Insert(key int, value interface{}) {
+func (b *BasicList) Insert(key int, value interface{}) {
 	if b.head == nil {
 		// fmt.Println("note is empty")
-		b.head = &basicnote{key: key, val: value, nextNode: nil}
+		b.head = &BasicNote{key: key, val: value, nextNode: nil}
 	} else {
-		var currentNode *basicnote
+		var currentNode *BasicNote
 		currentNode = b.head
-		var previouNote *basicnote
+		var previouNote *BasicNote
 		var found bool
-		newNode := &basicnote{key: key, val: value, nextNode: nil}
+		newNode := &BasicNote{key: key, val: value, nextNode: nil}
 
 		for {
 			if currentNode.key > key {
@@ -54,7 +54,7 @@ func (b *basiclist) Insert(key int, value interface{}) {
 	}
 }
 
-func (b *basiclist) Search(key int) (interface{}, error) {
+func (b *BasicList) Search(key int) (interface{}, error) {
 	currentNode := b.head
 	for {
 		if currentNode.key == key {
@@ -69,9 +69,9 @@ func (b *basiclist) Search(key int) (interface{}, error) {
 	return nil, errors.New("Not found.")
 }
 
-func (b *basiclist) Remove(key int) error {
+func (b *BasicList) Remove(key int) error {
 	currentNode := b.head
-	var previouNote *basicnote
+	var previouNote *BasicNote
 	for {
 		if currentNode.key == key {
 			previouNote.nextNode = currentNode.nextNode
@@ -87,7 +87,7 @@ func (b *basiclist) Remove(key int) error {
 	return errors.New("Not found key.")
 }
 
-func (b *basiclist) DisplayAll() {
+func (b *BasicList) DisplayAll() {
 	fmt.Println("")
 	fmt.Printf("head->")
 	currentNode := b.head

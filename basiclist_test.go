@@ -6,9 +6,9 @@ import (
 )
 
 func TestLinkedNode(t *testing.T) {
-	headNode := basicnote{key: 0, nextNode: nil}
-	headNode.nextNode = &basicnote{key: 1, val: "node1", nextNode: nil}
-	headNode.nextNode.nextNode = &basicnote{key: 2, val: "node2", nextNode: nil}
+	headNode := BasicNote{key: 0, nextNode: nil}
+	headNode.nextNode = &BasicNote{key: 1, val: "node1", nextNode: nil}
+	headNode.nextNode.nextNode = &BasicNote{key: 2, val: "node2", nextNode: nil}
 
 	fmt.Printf("head->")
 	currentNode := &headNode
