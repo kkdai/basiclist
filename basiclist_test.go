@@ -6,18 +6,18 @@ import (
 )
 
 func TestLinkedNode(t *testing.T) {
-	headNode := BasicNote{key: 0, nextNode: nil}
-	headNode.nextNode = &BasicNote{key: 1, val: "node1", nextNode: nil}
-	headNode.nextNode.nextNode = &BasicNote{key: 2, val: "node2", nextNode: nil}
+	headNode := NewBasicNode(0, nil)
+	headNode.next = NewBasicNode(1,  "node1")
+	headNode.next.next = NewBasicNode(2,  "node2")
 
 	fmt.Printf("head->")
-	currentNode := &headNode
+	currentNode := headNode
 	for {
-		fmt.Printf("[key:%d][val:%v]->", currentNode.key, currentNode.val)
-		if currentNode.nextNode == nil {
+		fmt.Printf("[key:%d][val:%v]->", currentNode.Key(), currentNode.Value())
+		if currentNode.Next() == nil {
 			break
 		}
-		currentNode = currentNode.nextNode
+		currentNode = currentNode.Next()
 	}
 	fmt.Printf("nil\n")
 }
