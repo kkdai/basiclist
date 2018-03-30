@@ -21,19 +21,18 @@ func (b *BasicList) Head() *BasicNode {
 
 func (b *BasicList) Insert(key int, value interface{}) {
 	if b.head == nil {
-		// fmt.Println("note is empty")
 		b.head = NewBasicNode(key, value)
 	} else {
 		var currentNode *BasicNode
 		currentNode = b.head
-		var previouNote *BasicNode
+		var previousNode *BasicNode
 		var found bool
 		newNode := NewBasicNode(key, value)
 
 		for {
 			if currentNode.key > key {
-				newNode.next = previouNote.Next()
-				previouNote.next = newNode
+				newNode.next = previousNode.Next()
+				previousNode.next = newNode
 				found = true
 				break
 			}
@@ -42,7 +41,7 @@ func (b *BasicList) Insert(key int, value interface{}) {
 				break
 			}
 
-			previouNote = currentNode
+			previousNode = currentNode
 			currentNode = currentNode.Next()
 		}
 
