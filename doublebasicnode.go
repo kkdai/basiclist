@@ -20,7 +20,7 @@ func (node *DoubleBasicNode) Value() *interface{} {
 }
 
 func (node *DoubleBasicNode) HasPrevious() bool {
-	return node.next != nil
+	return node.prev != nil
 }
 
 func (node *DoubleBasicNode) Previous() *DoubleBasicNode {
