@@ -7,7 +7,7 @@ type DoubleBasicNode struct {
 	next *DoubleBasicNode
 }
 
-func NewDoubleBasicNode(key uint, val interface{}) DoubleBasicNodeInterface {
+func NewDoubleBasicNode(key uint, val interface{}) *DoubleBasicNode {
 	return &DoubleBasicNode{key, val, nil, nil}
 }
 
@@ -20,10 +20,10 @@ func (node *DoubleBasicNode) Value() *interface{} {
 }
 
 func (node *DoubleBasicNode) HasPrevious() bool {
-	return node.prev != nil
+	return node.next != nil
 }
 
-func (node *DoubleBasicNode) Previous() DoubleBasicNodeInterface {
+func (node *DoubleBasicNode) Previous() *DoubleBasicNode {
 	return node.prev
 }
 
@@ -31,7 +31,7 @@ func (node *DoubleBasicNode) HasNext() bool {
 	return node.next != nil
 }
 
-func (node *DoubleBasicNode) Next() DoubleBasicNodeInterface {
+func (node *DoubleBasicNode) Next() *DoubleBasicNode {
 	return node.next
 }
 
