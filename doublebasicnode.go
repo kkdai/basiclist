@@ -19,10 +19,6 @@ func (node *DoubleBasicNode) Value() *interface{} {
 	return &node.val
 }
 
-func (node *DoubleBasicNode) HasPrevious() bool {
-	return node.prev != nil
-}
-
 func (node *DoubleBasicNode) Previous() *DoubleBasicNode {
 	return node.prev
 }
