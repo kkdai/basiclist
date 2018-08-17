@@ -23,10 +23,10 @@ func (node *DoubleBasicNode) Previous() *DoubleBasicNode {
 	return node.prev
 }
 
-func (node *DoubleBasicNode) Next() *DoubleBasicNode {
-	return node.next
-}
-
 func (node *DoubleBasicNode) HasNext() bool {
 	return node.next != nil
+}
+
+func (node *DoubleBasicNode) Next() *DoubleBasicNode {
+	return node.next
 }

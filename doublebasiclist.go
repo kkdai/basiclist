@@ -63,6 +63,21 @@ func (b *DoubleBasicList) Insert(key uint, value interface{}) error {
 	return nil
 }
 
+func (b *DoubleBasicList) Index(index int) (interface{}, error) {
+	currentNode := b.head
+
+	for i := 0; i < index; i++ {
+		if !currentNode.HasNext() {
+			return nil, errors.New("index not found")
+		}
+
+		currentNode = currentNode.Next()
+	}
+
+	return currentNode.val, nil
+
+}
+
 func (b *DoubleBasicList) Search(key uint) (interface{}, error) {
 	currentNode := b.head
 	for {
@@ -70,7 +85,7 @@ func (b *DoubleBasicList) Search(key uint) (interface{}, error) {
 			return currentNode.val, nil
 		}
 
-		if currentNode.Next() == nil {
+		if !currentNode.HasNext() {
 			break
 		}
 		currentNode = currentNode.Next()
