@@ -90,6 +90,45 @@ func TestDoubleBasicList_RemoveAll3(t *testing.T) {
 	list.DisplayAll()
 }
 
+func TestDoubleBasicList_Inde1(t *testing.T) {
+	list := NewDoubleBasicList()
+	list.Insert(0, "zero1")
+	list.Insert(0, "zero2")
+	list.Insert(1, "one1")
+	list.Insert(1, "one2")
+	list.Insert(2, "two1")
+	list.Insert(2, "two2")
+	list.DisplayAll()
+	node, _ := list.Index(1)
+	assertEqual(t, node, "zero1")
+}
+
+func TestDoubleBasicList_Index2(t *testing.T) {
+	list := NewDoubleBasicList()
+	list.Insert(0, "zero1")
+	list.Insert(0, "zero2")
+	list.Insert(1, "one1")
+	list.Insert(1, "one2")
+	list.Insert(2, "two1")
+	list.Insert(2, "two2")
+	list.DisplayAll()
+	node, _ := list.Index(2)
+	assertEqual(t, node, "zero2")
+}
+
+func TestDoubleBasicList_Index3(t *testing.T) {
+	list := NewDoubleBasicList()
+	list.Insert(0, "zero1")
+	list.Insert(0, "zero2")
+	list.Insert(1, "one1")
+	list.Insert(1, "one2")
+	list.Insert(2, "two1")
+	list.Insert(2, "two2")
+	list.DisplayAll()
+	node, _ := list.Index(3)
+	assertEqual(t, node, "one1")
+}
+
 func TestDoubleBasicList_Search(t *testing.T) {
 	list := NewDoubleBasicList()
 	list.Insert(0, "zero1")

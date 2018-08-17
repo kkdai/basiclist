@@ -34,4 +34,3 @@ func (node *DoubleBasicNode) HasNext() bool {
 func (node *DoubleBasicNode) Next() *DoubleBasicNode {
 	return node.next
 }
-
