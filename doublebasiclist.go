@@ -74,7 +74,7 @@ func (b *DoubleBasicList) Index(index int) (interface{}, error) {
 		currentNode = currentNode.Next()
 	}
 
-	return currentNode.val, nil
+	return currentNode, nil
 
 }
 
