@@ -6,13 +6,14 @@ import (
 )
 
 type DoubleBasicList struct {
-	head *DoubleBasicNode
+	head   *DoubleBasicNode
+	length int
 }
 
 //NewBasicList : Init structure for basic Sorted Doubly Linked List.
 func NewDoubleBasicList() *DoubleBasicList {
 	var empty interface{}
-	return &DoubleBasicList{head: NewDoubleBasicNode(0, empty)}
+	return &DoubleBasicList{head: NewDoubleBasicNode(0, empty), length: 0}
 }
 
 func (b *DoubleBasicList) Head() *DoubleBasicNode {
@@ -60,11 +61,20 @@ func (b *DoubleBasicList) Insert(key uint, value interface{}) error {
 		}
 	}
 
+	b.length = b.length + 1
 	return nil
+}
+
+func (b *DoubleBasicList) Length() int {
+	return b.length
 }
 
 func (b *DoubleBasicList) Index(index int) (*DoubleBasicNode, error) {
 	currentNode := b.head
+
+	if index > b.Length() {
+		return currentNode, errors.New("index out of bounds")
+	}
 
 	for i := 0; i < index; i++ {
 		if !currentNode.HasNext() {
@@ -113,6 +123,7 @@ func (b *DoubleBasicList) Remove(key uint, value interface{}) error {
 		}
 	}
 
+	b.length = b.length - 1
 	return nil
 }
 
@@ -143,9 +154,9 @@ func (b *DoubleBasicList) RemoveAll(key uint) error {
 			}
 		}
 
-
 	}
 
+	b.length = 0
 	return nil
 }
 
