@@ -63,7 +63,7 @@ func (b *DoubleBasicList) Insert(key uint, value interface{}) error {
 	return nil
 }
 
-func (b *DoubleBasicList) Index(index int) (interface{}, error) {
+func (b *DoubleBasicList) Index(index int) (*DoubleBasicNode, error) {
 	currentNode := b.head
 
 	for i := 0; i < index; i++ {
