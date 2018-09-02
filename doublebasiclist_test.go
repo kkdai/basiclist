@@ -101,7 +101,7 @@ func TestDoubleBasicList_Index1(t *testing.T) {
 	list.Insert(2, "two2")
 	list.DisplayAll()
 	node, _ := list.Index(1)
-	assertEqual(t, node.key, uint(0))
+	assertEqual(t, node.key, 0)
 	assertEqual(t, *node.Value(), "zero1")
 }
 
@@ -115,7 +115,7 @@ func TestDoubleBasicList_Index2(t *testing.T) {
 	list.Insert(2, "two2")
 	list.DisplayAll()
 	node, _ := list.Index(2)
-	assertEqual(t, node.key, uint(0))
+	assertEqual(t, node.key,0)
 	assertEqual(t, *node.Value(), "zero2")
 }
 
@@ -129,7 +129,7 @@ func TestDoubleBasicList_Index3(t *testing.T) {
 	list.Insert(2, "two2")
 	list.DisplayAll()
 	node, _ := list.Index(3)
-	assertEqual(t, node.key, uint(1))
+	assertEqual(t, node.key, 1)
 	assertEqual(t, *node.Value(), "one1")
 }
 
@@ -151,6 +151,24 @@ func TestDoubleBasicList_DoubleBasicNode_HasPrevious(t *testing.T) {
 	list.Insert(0, "zero2")
 	list.Insert(1, "one1")
 	list.Insert(1, "one2")
+	head, _ := list.Index(0)
+	assertEqual(t, head.HasPrevious(), false)
+	node1, _ := list.Index(1)
+	assertEqual(t, node1.HasPrevious(), false)
+	node2, _ := list.Index(2)
+	assertEqual(t, node2.HasPrevious(), true)
+	node3, _ := list.Index(3)
+	assertEqual(t, node3.HasPrevious(), true)
+	node4, _ := list.Index(4)
+	assertEqual(t, node4.HasPrevious(), true)
+}
+
+func TestDoubleBasicList_DoubleBasicNode_HasPreviousAllZeros(t *testing.T) {
+	list := NewDoubleBasicList()
+	list.Insert(0, "zero1")
+	list.Insert(0, "zero2")
+	list.Insert(0, "one1")
+	list.Insert(0, "one2")
 	head, _ := list.Index(0)
 	assertEqual(t, head.HasPrevious(), false)
 	node1, _ := list.Index(1)

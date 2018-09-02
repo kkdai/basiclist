@@ -39,22 +39,30 @@ func (b *DoubleBasicList) Insert(key uint, value interface{}) error {
 		b.Tail().next = newNode
 		b.Head().prev = newNode
 	} else {
-		current := b.Head()
+		head := b.Head()
+		current := b.Head().Next()
 		previous := b.Tail()
 
-		for {
-			if newNode.Key() < current.Key() {
-				newNode.next = current
-				newNode.prev = previous
-				previous.next = newNode
-				current.prev = newNode
-				break
-			} else {
-				if current.HasNext() {
-					previous = current
-					current = current.Next()
+		if newNode.Key() < current.Key() {
+			newNode.next = current
+			newNode.prev = head
+			head.next = newNode
+			current.prev = newNode
+		} else {
+			for {
+				if newNode.Key() < current.Key() {
+					newNode.next = current
+					newNode.prev = previous
+					previous.next = newNode
+					current.prev = newNode
+					break
 				} else {
-					return errors.New("insert failed due to unexpected state")
+					if current.HasNext() {
+						previous = current
+						current = current.Next()
+					} else {
+						return errors.New("insert failed due to unexpected state")
+					}
 				}
 			}
 		}
@@ -90,7 +98,7 @@ func (b *DoubleBasicList) Index(index int) (*DoubleBasicNode, error) {
 func (b *DoubleBasicList) Search(key uint) (interface{}, error) {
 	currentNode := b.head
 	for {
-		if currentNode.key == key {
+		if currentNode.Key() == key {
 			return *currentNode.Value(), nil
 		}
 
@@ -163,7 +171,6 @@ func (b *DoubleBasicList) DisplayAll() {
 	fmt.Println("")
 	fmt.Printf("<-head->")
 	current := b.head
-	fmt.Printf("<-[prevKey:%d]->", current.prev.key)
 
 	for {
 		fmt.Printf("<-[key:%d][val:%v]->", current.key, *current.Value())

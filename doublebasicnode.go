@@ -1,22 +1,22 @@
 package basiclist
 
 type DoubleBasicNode struct {
-	key  uint
+	key  int
 	val  interface{}
 	prev *DoubleBasicNode
 	next *DoubleBasicNode
 }
 
 func NewDoubleBasicHead() *DoubleBasicNode {
-	return &DoubleBasicNode{0, nil, nil, nil}
+	return &DoubleBasicNode{-1, nil, nil, nil}
 }
 
 func NewDoubleBasicNode(key uint, val interface{}) *DoubleBasicNode {
-	return &DoubleBasicNode{key, val, nil, nil}
+	return &DoubleBasicNode{int(key), val, nil, nil}
 }
 
 func (node *DoubleBasicNode) Key() uint {
-	return node.key
+	return uint(node.key)
 }
 
 func (node *DoubleBasicNode) Value() *interface{} {
@@ -41,5 +41,5 @@ func (node *DoubleBasicNode) Next() *DoubleBasicNode {
 
 func (node *DoubleBasicNode) IsHead() bool {
 	return node.Previous() == nil ||
-		(node.key == 0 && node.Previous().key > 0)
+		(node.key == -1 && node.Previous().key > -1)
 }
