@@ -12,8 +12,7 @@ type DoubleBasicList struct {
 
 //NewBasicList : Init structure for basic Sorted Doubly Linked List.
 func NewDoubleBasicList() *DoubleBasicList {
-	var empty interface{}
-	return &DoubleBasicList{head: NewDoubleBasicNode(0, empty), length: 0}
+	return &DoubleBasicList{head: NewDoubleBasicHead(), length: 0}
 }
 
 func (b *DoubleBasicList) Head() *DoubleBasicNode {
@@ -92,7 +91,7 @@ func (b *DoubleBasicList) Search(key uint) (interface{}, error) {
 	currentNode := b.head
 	for {
 		if currentNode.key == key {
-			return currentNode.val, nil
+			return *currentNode.Value(), nil
 		}
 
 		if !currentNode.HasNext() {
@@ -164,8 +163,10 @@ func (b *DoubleBasicList) DisplayAll() {
 	fmt.Println("")
 	fmt.Printf("<-head->")
 	current := b.head
+	fmt.Printf("<-[prevKey:%d]->", current.prev.key)
+
 	for {
-		fmt.Printf("<-[key:%d][val:%v]->", current.key, current.val)
+		fmt.Printf("<-[key:%d][val:%v]->", current.key, *current.Value())
 		if !current.HasNext() {
 			break
 		}

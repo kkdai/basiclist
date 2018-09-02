@@ -1,8 +1,6 @@
 package basiclist
 
-import (
-	"testing"
-)
+import "testing"
 
 func assertEqual(t *testing.T, a interface{}, b interface{}) {
 	if a != b {
@@ -30,6 +28,9 @@ func TestDoubleBasicList_Insert(t *testing.T) {
 	list.Insert(18, "eit2")
 	list.Insert(19, "nin2")
 	list.Insert(20, "tw2")
+	if list.Length() != 13 {
+		t.Errorf("expected list length to be 13")
+	}
 	list.DisplayAll()
 }
 
@@ -142,4 +143,22 @@ func TestDoubleBasicList_Search(t *testing.T) {
 	list.Insert(2, "two2")
 	node, _ := list.Search(2)
 	assertEqual(t, node, "two1")
+}
+
+func TestDoubleBasicList_DoubleBasicNode_HasPrevious(t *testing.T) {
+	list := NewDoubleBasicList()
+	list.Insert(0, "zero1")
+	list.Insert(0, "zero2")
+	list.Insert(1, "one1")
+	list.Insert(1, "one2")
+	head, _ := list.Index(0)
+	assertEqual(t, head.HasPrevious(), false)
+	node1, _ := list.Index(1)
+	assertEqual(t, node1.HasPrevious(), false)
+	node2, _ := list.Index(2)
+	assertEqual(t, node2.HasPrevious(), true)
+	node3, _ := list.Index(3)
+	assertEqual(t, node3.HasPrevious(), true)
+	node4, _ := list.Index(4)
+	assertEqual(t, node4.HasPrevious(), true)
 }
