@@ -5,14 +5,15 @@ type DoubleBasicNode struct {
 	val  interface{}
 	prev *DoubleBasicNode
 	next *DoubleBasicNode
+	isRoot bool
 }
 
-func NewDoubleBasicHead() *DoubleBasicNode {
-	return &DoubleBasicNode{-1, nil, nil, nil}
+func newDoubleBasicRoot() *DoubleBasicNode {
+	return &DoubleBasicNode{-1, nil, nil, nil, true}
 }
 
 func NewDoubleBasicNode(key uint, val interface{}) *DoubleBasicNode {
-	return &DoubleBasicNode{int(key), val, nil, nil}
+	return &DoubleBasicNode{int(key), val, nil, nil, false}
 }
 
 func (node *DoubleBasicNode) Key() uint {
@@ -24,7 +25,7 @@ func (node *DoubleBasicNode) Value() *interface{} {
 }
 
 func (node *DoubleBasicNode) HasPrevious() bool {
-	return node != nil && !node.IsHead() && node.Previous() != nil && !node.Previous().IsHead()
+	return node != nil && !node.IsRoot() && node.Previous() != nil && !node.Previous().IsRoot()
 }
 
 func (node *DoubleBasicNode) Previous() *DoubleBasicNode {
@@ -39,7 +40,6 @@ func (node *DoubleBasicNode) Next() *DoubleBasicNode {
 	return node.next
 }
 
-func (node *DoubleBasicNode) IsHead() bool {
-	return node.Previous() == nil ||
-		(node.key == -1 && node.Previous().key > -1)
+func (node *DoubleBasicNode) IsRoot() bool {
+	return node.isRoot
 }
