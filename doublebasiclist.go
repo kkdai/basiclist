@@ -118,27 +118,32 @@ func (b *DoubleBasicList) Search(key uint) (interface{}, error) {
 	return nil, errors.New("key not found")
 }
 
-func (b *DoubleBasicList) Remove(key uint, value interface{}) error {
+func (b *DoubleBasicList) Remove(node *DoubleBasicNode) *DoubleBasicNode {
+	node.prev.next = node.next
+	node.next.prev = node.prev
+	node.next = nil
+	node.prev = nil
+	b.length--
+	return node
+}
 
-	current := b.Root().Next()
-	previous := b.Root()
+func (b *DoubleBasicList) RemovePair(key uint, value interface{}) error {
+
+	node := b.Head()
 
 	for {
-		if key == current.Key() && value == *current.Value() {
-			previous.next = current.Next()
-			current.Next().prev = previous
+		if key == node.Key() && value == *node.Value() {
+			b.Remove(node)
 			break
 		} else {
-			if current.HasNext() {
-				previous = current
-				current = current.Next()
+			if node.HasNext() {
+				node = node.Next()
 			} else {
 				return errors.New("key not found")
 			}
 		}
 	}
 
-	b.length = b.length - 1
 	return nil
 }
 

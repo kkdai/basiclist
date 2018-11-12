@@ -51,7 +51,10 @@ func TestDoubleBasicList_Remove(t *testing.T) {
 	list.Insert(1, "one1")
 	list.Insert(1, "one2")
 	list.Insert(1, "one3")
-	list.Remove(1, "one1")
+	list.RemovePair(1, "one1")
+	if list.Length() != 4 {
+		t.Fatalf("unexpected length: %d", list.Length())
+	}
 	list.DisplayAll()
 }
 
