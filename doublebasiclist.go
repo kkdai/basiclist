@@ -6,65 +6,90 @@ import (
 )
 
 type DoubleBasicList struct {
-	head *DoubleBasicNode
+	root   *DoubleBasicNode
+	length int
 }
 
 //NewBasicList : Init structure for basic Sorted Doubly Linked List.
 func NewDoubleBasicList() *DoubleBasicList {
-	var empty interface{}
-	return &DoubleBasicList{head: NewDoubleBasicNode(0, empty)}
+	return &DoubleBasicList{root: newDoubleBasicRoot(), length: 0}
+}
+
+func (b *DoubleBasicList) Root() *DoubleBasicNode {
+	return b.root
 }
 
 func (b *DoubleBasicList) Head() *DoubleBasicNode {
-	return b.head
+	return b.Root().Next()
 }
 
 func (b *DoubleBasicList) Tail() *DoubleBasicNode {
-	return b.Head().Previous()
+	return b.Root().Previous()
 }
 
 func (b *DoubleBasicList) Insert(key uint, value interface{}) error {
 
 	newNode := NewDoubleBasicNode(key, value)
 
-	if b.head == nil {
+	if b.root == nil {
 		return errors.New("insert failed due to unexpected state")
 	} else if b.Tail() == nil { /* First Inserted Node */
-		newNode.prev = b.Head()
-		b.Head().next = newNode
-		b.Head().prev = newNode
+		newNode.prev = b.Root()
+		b.Root().next = newNode
+		b.Root().prev = newNode
 	} else if newNode.Key() >= b.Tail().Key() { /* Largest new tail    */
 		newNode.prev = b.Tail()
 		// order of operations matters here
 		b.Tail().next = newNode
-		b.Head().prev = newNode
+		b.Root().prev = newNode
 	} else {
-		current := b.Head()
+		head := b.Root()
+		current := b.Root().Next()
 		previous := b.Tail()
 
-		for {
-			if newNode.Key() < current.Key() {
-				newNode.next = current
-				newNode.prev = previous
-				previous.next = newNode
-				current.prev = newNode
-				break
-			} else {
-				if current.HasNext() {
-					previous = current
-					current = current.Next()
+		if newNode.Key() < current.Key() {
+			newNode.next = current
+			newNode.prev = head
+			head.next = newNode
+			current.prev = newNode
+		} else {
+			for {
+				if newNode.Key() < current.Key() {
+					newNode.next = current
+					newNode.prev = previous
+					previous.next = newNode
+					current.prev = newNode
+					break
 				} else {
-					return errors.New("insert failed due to unexpected state")
+					if current.HasNext() {
+						previous = current
+						current = current.Next()
+					} else {
+						return errors.New("insert failed due to unexpected state")
+					}
 				}
 			}
 		}
 	}
 
+	b.length = b.length + 1
 	return nil
 }
 
-func (b *DoubleBasicList) Index(index int) (interface{}, error) {
-	currentNode := b.head
+func (b *DoubleBasicList) IsEmpty() bool {
+	return b.length == 0
+}
+
+func (b *DoubleBasicList) Length() int {
+	return b.length
+}
+
+func (b *DoubleBasicList) Index(index int) (*DoubleBasicNode, error) {
+	currentNode := b.root
+
+	if index > b.Length() {
+		return currentNode, errors.New("index out of bounds")
+	}
 
 	for i := 0; i < index; i++ {
 		if !currentNode.HasNext() {
@@ -74,15 +99,15 @@ func (b *DoubleBasicList) Index(index int) (interface{}, error) {
 		currentNode = currentNode.Next()
 	}
 
-	return currentNode.val, nil
+	return currentNode, nil
 
 }
 
 func (b *DoubleBasicList) Search(key uint) (interface{}, error) {
-	currentNode := b.head
+	currentNode := b.root
 	for {
-		if currentNode.key == key {
-			return currentNode.val, nil
+		if currentNode.Key() == key {
+			return *currentNode.Value(), nil
 		}
 
 		if !currentNode.HasNext() {
@@ -93,20 +118,26 @@ func (b *DoubleBasicList) Search(key uint) (interface{}, error) {
 	return nil, errors.New("key not found")
 }
 
-func (b *DoubleBasicList) Remove(key uint, value interface{}) error {
+func (b *DoubleBasicList) Remove(node *DoubleBasicNode) *DoubleBasicNode {
+	node.prev.next = node.next
+	node.next.prev = node.prev
+	node.next = nil
+	node.prev = nil
+	b.length--
+	return node
+}
 
-	current := b.Head().Next()
-	previous := b.Head()
+func (b *DoubleBasicList) RemovePair(key uint, value interface{}) error {
+
+	node := b.Head()
 
 	for {
-		if key == current.Key() && value == *current.Value() {
-			previous.next = current.Next()
-			current.Next().prev = previous
+		if key == node.Key() && value == *node.Value() {
+			b.Remove(node)
 			break
 		} else {
-			if current.HasNext() {
-				previous = current
-				current = current.Next()
+			if node.HasNext() {
+				node = node.Next()
 			} else {
 				return errors.New("key not found")
 			}
@@ -118,8 +149,8 @@ func (b *DoubleBasicList) Remove(key uint, value interface{}) error {
 
 func (b *DoubleBasicList) RemoveAll(key uint) error {
 
-	current := b.Head().Next()
-	previous := b.Head()
+	current := b.Root().Next()
+	previous := b.Root()
 	found := false
 
 	for {
@@ -143,18 +174,19 @@ func (b *DoubleBasicList) RemoveAll(key uint) error {
 			}
 		}
 
-
 	}
 
+	b.length = 0
 	return nil
 }
 
 func (b *DoubleBasicList) DisplayAll() {
 	fmt.Println("")
 	fmt.Printf("<-head->")
-	current := b.head
+	current := b.root
+
 	for {
-		fmt.Printf("<-[key:%d][val:%v]->", current.key, current.val)
+		fmt.Printf("<-[key:%d][val:%v]->", current.key, *current.Value())
 		if !current.HasNext() {
 			break
 		}
